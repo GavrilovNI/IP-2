@@ -262,7 +262,6 @@ namespace IP1
         {
             result1 = new FilterMedian(20).Run(loadedImage);
 
-
             buttonSave1.IsEnabled = true;
 
             image1.Source = Utils.ImageToBitmapSource(result1);
@@ -271,6 +270,16 @@ namespace IP1
         private void gaussianButton_Click(object sender, RoutedEventArgs e)
         {
             result1 = new FilterGaussian().Run(loadedImage);
+
+
+            buttonSave1.IsEnabled = true;
+
+            image1.Source = Utils.ImageToBitmapSource(result1);
+        }
+
+        private void noiseButton_Click(object sender, RoutedEventArgs e)
+        {
+            result1 = new NoiseFilter().Run(loadedImage);
 
 
             buttonSave1.IsEnabled = true;
