@@ -30,6 +30,6 @@
         <CheckBox x:Name="checkBoxOrigHsv" Content="Orig HSV" HorizontalAlignment="Left" Margin="733,80,0,0" VerticalAlignment="Top" Height="15" Width="77" FontSize="10"/>
         <Button x:Name="medianButton" Content="Median" HorizontalAlignment="Left" Margin="610,46,0,0" VerticalAlignment="Top" Click="medianButton_Click"/>
         <Button x:Name="gaussianButton" Content="Gaussian" HorizontalAlignment="Left" Margin="662,46,0,0" VerticalAlignment="Top" Click="gaussianButton_Click" Width="66"/>
-
+        <Button x:Name="noiseButton" Content="Noise" HorizontalAlignment="Left" Margin="750,46,0,0" VerticalAlignment="Top" Click="noiseButton_Click"/>
     </Grid>
 </Window>
