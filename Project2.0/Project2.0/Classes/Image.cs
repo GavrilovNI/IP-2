@@ -33,21 +33,26 @@ namespace IP1.Imaging
 
 
 
-        public Image(uint sizeX, uint sizeY)
+        public Image(uint width, uint height) :this((int)width, (int)height)
         {
-            data = new ColorRGB[sizeY, sizeX];
-            for (int y = 0; y < data.GetLength(0); y++)
-                for (int x = 0; x < data.GetLength(1); x++)
-                    data[y, x] = ColorRGB.White;
-
         }
 
-        public Image(int sizeX, int sizeY)
+        public Image(Image image)
         {
-            if (sizeX < 0 || sizeY < 0)
+            if (image == null)
+                throw new Exception("null image");
+            data = new ColorRGB[image.Height, image.Width];
+            for (int y = 0; y < data.GetLength(0); y++)
+                for (int x = 0; x < data.GetLength(1); x++)
+                    data[y, x] = image[y, x];
+        }
+
+        public Image(int width, int height)
+        {
+            if (width < 0 || height < 0)
                 throw new Exception("Wrong image size");
 
-            data = new ColorRGB[sizeY, sizeX];
+            data = new ColorRGB[height, width];
             for (int y = 0; y < data.GetLength(0); y++)
                 for (int x = 0; x < data.GetLength(1); x++)
                     data[y, x] = ColorRGB.White;

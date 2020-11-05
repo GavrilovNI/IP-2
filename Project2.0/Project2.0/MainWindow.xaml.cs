@@ -94,6 +94,8 @@ namespace IP1
 
             buttonSave1.IsEnabled = false;
             buttonSave2.IsEnabled = false;
+            buttonPushLeft1.IsEnabled = false;
+            buttonPushLeft2.IsEnabled = false;
         }
 
         public double CheckTime(Action action)
@@ -126,6 +128,8 @@ namespace IP1
 
             buttonSave1.IsEnabled = true;
             buttonSave2.IsEnabled = true;
+            buttonPushLeft1.IsEnabled = true;
+            buttonPushLeft2.IsEnabled = true;
         }
 
         public void RunFilter(Filter filter, Func<Mat, Mat> openCVFilter)
@@ -175,7 +179,7 @@ namespace IP1
 
         }
 
-        private void Convert_Click(object sender, RoutedEventArgs e)
+        private void Run_Click(object sender, RoutedEventArgs e)
         {
             Filter customFilter = null;
             Func<Mat, Mat> openCVFilter = null;
@@ -202,6 +206,18 @@ namespace IP1
 
                 return;
             }
+            else if (radioButtonMedian.IsChecked == true)
+            {
+                int radius = 1;
+                customFilter = new FilterMedian(radius);
+                openCVFilter = (Mat mat) => { return mat.MedianBlur(radius*2 + 1); };
+            }
+            else if (radioButtonGaussian.IsChecked == true)
+            {
+                customFilter = new FilterGaussian();
+                openCVFilter = (Mat mat) => { return mat.GaussianBlur(new OpenCvSharp.Size(3, 3), 5, 0); };
+            }
+
 
             if (customFilter != null && openCVFilter != null)
                 RunFilter(customFilter, openCVFilter);
@@ -258,33 +274,34 @@ namespace IP1
         }
         
 
-        private void medianButton_Click(object sender, RoutedEventArgs e)
-        {
-            result1 = new FilterMedian(20).Run(loadedImage);
-
-            buttonSave1.IsEnabled = true;
-
-            image1.Source = Utils.ImageToBitmapSource(result1);
-        }
-
-        private void gaussianButton_Click(object sender, RoutedEventArgs e)
-        {
-            result1 = new FilterGaussian().Run(loadedImage);
-
-
-            buttonSave1.IsEnabled = true;
-
-            image1.Source = Utils.ImageToBitmapSource(result1);
-        }
-
         private void noiseButton_Click(object sender, RoutedEventArgs e)
         {
-            result1 = new NoiseFilter().Run(loadedImage);
+            ClearResults();
+
+            label1.Content = "Шум";
+            label2.Content = "";
+
+            result1 = new NoiseFilter(30).Run(loadedImage);
 
 
             buttonSave1.IsEnabled = true;
+            buttonPushLeft1.IsEnabled = true;
 
             image1.Source = Utils.ImageToBitmapSource(result1);
+        }
+
+        private void buttonPushLeft_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (sender == buttonPushLeft1)
+            {
+                loadedImage = new Imaging.Image(result1);
+            }
+            if (sender == buttonPushLeft2)
+            {
+                loadedImage = new Imaging.Image(result2);
+            }
+            imageOrig.Source = Utils.ImageToBitmapSource(loadedImage);
         }
     }
 }
